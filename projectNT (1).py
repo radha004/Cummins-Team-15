@@ -7,25 +7,25 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-# App Title with color customization
+# App Title 
 st.markdown("<h1 style='text-align: center; color: #4CAF50;'>Currency Exchange Rate Analysis Dashboard</h1>", unsafe_allow_html=True)
 
-# Description with colored text
+# Description 
 st.markdown("<p style='text-align: center; color: #6A5ACD;'>Analyze historical exchange rates between the U.S. dollar (USD) and other currencies.<br>Visualize trends across different frequencies: Annual, Monthly, Weekly, Quarterly.</p>", unsafe_allow_html=True)
 
-# Layout: Two columns for frequency and year selection
+# Layout Two columns for frequency and year selection
 col1, col2 = st.columns(2)
 
-# Dropdown for frequency (Annual, Monthly, Weekly, Quarterly)
+# Dropdown for frequency 
 with col1:
     frequency = st.selectbox("Select Frequency", ['Annual', 'Monthly', 'Weekly', 'Quarterly'])
 
-# Dropdown for Year, disabled if Annual is selected
+# Dropdown for Year disabled if Annual selected
 with col2:
     years = list(range(2012, 2025))  # From 2012 to 2024
     selected_year = st.selectbox("Select Year", years, disabled=(frequency == 'Annual'))
 
-# Read all annual CSV files into a single DataFrame
+# all annual CSV files into a single DataFrame
 def read_annual_data():
     files = glob.glob("C:/Users/Piyu/currency_dashboard/Currency Conversion Rate Data From 2012/Exchange_Rate_Report_*.csv")
     dataframes = []
@@ -90,7 +90,7 @@ if not processed_data.empty:
         with col4:
             st.metric("Lowest Rate", f"{lowest_rate:.2f}", delta=None, help=f"Lowest Date: {lowest_date}", delta_color="inverse")
 
-        # Create interactive Plotly chart
+        # Plotly chart
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=processed_data.index, y=processed_data[currency2],
                                  mode='lines+markers',
@@ -106,10 +106,10 @@ if not processed_data.empty:
                           yaxis_title=f'Exchange Rate ({currency2})',
                           template='plotly_white')
 
-        # Show the plot in Streamlit
+        # Show plot in Streamlit
         st.plotly_chart(fig)
 
-        # Calculate and display volatility
+        # Calculate display volatility
         rolling_volatility = processed_data[currency2].rolling(window=5).std()  # Rolling 5-day volatility
         processed_data['Volatility'] = rolling_volatility
 
@@ -135,15 +135,15 @@ if not processed_data.empty:
 else:
     st.error("No data available for the selected frequency.")
 
-# Custom Currency Basket Feature with colored text
+# Custom Currency Basket 
 st.markdown("<h2 style='text-align: left; color: #FF4500;'>Custom Currency Basket</h2>", unsafe_allow_html=True)
 
 base_currency = st.selectbox("Select Base Currency", 'USD')
 
-# User Input for Custom Currency Basket
+# User Input for Basket
 num_currencies = st.number_input("Number of Currencies in Basket", min_value=1, max_value=10, value=3)
 
-# List of available currencies for selection
+# available currencies 
 available_currencies = [
     'DZD', 'AUD', 'BHD', 'VEF', 'BWP', 'BRL', 'BND', 'CAD', 'CLP', 
     'CNY', 'COP', 'CZK', 'DKK', 'EUR', 'HUF', 'ISK', 'INR', 'IDR', 
@@ -162,13 +162,13 @@ for i in range(num_currencies):
     selected_currencies.append(selected_currency)
     weights.append(weight)
 
-# Function to fetch exchange rates for the custom basket calculation
+# fetch exchange rates for basket calculation
 def fetch_exchange_rates(base_currency):
     url = f"https://api.exchangerate-api.com/v4/latest/{base_currency}"
     response = requests.get(url)
     return response.json()['rates']
 
-# Calculate the weighted average for the custom basket
+# weighted average for the custom basket
 if st.button("Calculate Basket Rate"):
     try:
         exchange_rates = fetch_exchange_rates(base_currency)
@@ -180,13 +180,13 @@ if st.button("Calculate Basket Rate"):
     except Exception as e:
         st.error(f"Error fetching exchange rates: {e}")
 
-# Function to fetch current exchange rates
+# fetch current exchange rates
 def fetch_current_exchange_rates():
     url = "https://api.exchangerate-api.com/v4/latest/USD" 
     response = requests.get(url)
     return response.json()['rates']
 
-# Add feature to display current exchange rates
+# display current exchange rates
 st.markdown("<h2 style='text-align: left; color: #FF4500;'>Current Exchange Rates</h2>", unsafe_allow_html=True)
 
 current_rates = fetch_current_exchange_rates()
