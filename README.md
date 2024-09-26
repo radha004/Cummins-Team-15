@@ -10,7 +10,7 @@ The **Currency Exchange Rate Analysis Dashboard** is a web application built wit
 - **Custom Currency Basket**: Create a weighted average exchange rate for a basket of selected currencies.
 - **Current Exchange Rates**: Display the latest exchange rates for various currencies.
 
-##Data Handling
+## Data Handling
 Null Values in csv files are replaced by appropriate measure.
 
 ## Installation
