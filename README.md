@@ -58,6 +58,4 @@ Make sure you have the following installed:
   - **Custom Currency Basket**: Allows users to input selected currencies and their weights, fetching the current exchange rates for calculations.
   - **Current Exchange Rates**: Fetches and displays the current exchange rates for various currencies.
 
-## Known Issues
-- Ensure the CSV files contain the required currency data; otherwise, the app may not function as intended.
-- Error handling is included for network requests, but users may encounter issues if the API is down or unresponsive.
+
